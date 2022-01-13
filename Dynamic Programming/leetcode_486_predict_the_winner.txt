@@ -1,0 +1,27 @@
+class Solution {
+    int dp[21][21];
+public:
+
+    int helper(vector<int> &nums, int i, int j, int total){
+        if(i>j)
+            return 0;
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        dp[i][j] = total - min(helper(nums,i+1,j,total-nums[i]),helper(nums,i,j-1,total-nums[j]));
+        return dp[i][j];
+    }
+    bool PredictTheWinner(vector<int>& nums) {
+        int two = 0;
+        int n = nums.size();
+        for(int i=0;i<n;i++)
+            two += nums[i];
+        for(int i=0;i<21;i++)
+            for(int j=0;j<21;j++)
+                dp[i][j]=-1;
+        int one = helper(nums,0,n-1,two);
+        two -= one;
+        return one>=two;
+    }
+};
+
+
